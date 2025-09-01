@@ -1,7 +1,7 @@
 ### Integrantes:
 - Gonzalo Girotti
 - Ignacio Fregeiro
-- Luciaa Sola
+- Lucia Sola
 - Gianfranco Campagnucci
 - Dario Colantonio
 ***
