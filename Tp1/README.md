@@ -4,8 +4,3 @@
 - Lucia Sola
 - Gianfranco Campagnucci
 - Dario Colantonio
-
-
-
-## EJERCICIO 5 - DIAGRAMA UML
-![DIAGRAMA_UML](./images/Diagrama%20UML%20EJ%205.png)
