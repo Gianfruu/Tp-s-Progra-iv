@@ -7,3 +7,6 @@
 
 ## EJERCICIO 3 - DIAGRAMA UML
 ![DIAGRAMA_UML](./images/EJ3_TP1.png)
+
+## EJERCICIO 5 - DIAGRAMA UML
+![DIAGRAMA_UML](./images/Diagrama%20UML%20EJ%205.png)
