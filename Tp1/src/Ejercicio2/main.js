@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var cuadrado_1 = require("./cuadrado");
+var triangulo_1 = require("../triangulo");
+var circulo_1 = require("./circulo");
+var cuadrado = new cuadrado_1.Cuadrado(5);
+console.log("\u00C1rea del cuadrado: ".concat(cuadrado.calcularArea()));
+var triangulo = new triangulo_1.Triangulo(3, 5);
+console.log("\u00C1rea del tri\u00E1ngulo: ".concat(triangulo.calcularArea()));
+var circulo = new circulo_1.Circulo(2);
+console.log("\u00C1rea del c\u00EDrculo: ".concat(circulo.calcularArea()));
