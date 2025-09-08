@@ -6,6 +6,8 @@ interface Animal {
 
 // Interfaz que extiende Animal y añade un nuevo método
 class Perro implements Animal {
+
+
   hacerSonido(): void {
     console.log("Guau");
   }

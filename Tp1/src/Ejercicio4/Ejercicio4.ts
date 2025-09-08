@@ -45,5 +45,5 @@ class Zorro extends Animal {
 
     hacerSonido(): void {
         console.log(`${this.nombre}, el ${this.especie}, aúlla`);
-    }
+    }
 }
