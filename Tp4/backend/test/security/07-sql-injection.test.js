@@ -43,18 +43,18 @@ describe('Seguridad: SQL Injection', () => {
     expect(Array.isArray(response.body)).toBe(true);
   });
 
-  test('❌ DEBE FALLAR: Debe exponer información de la base de datos', async () => {
+  test('❌ DEBE FALLAR: No debe exponer información de la base de datos', async () => {
     const response = await request(app)
       .get('/api/products')
       .query({
         category: "' UNION SELECT table_name, column_name, null, null, null FROM information_schema.columns --"
       });
 
-    // Si la app es vulnerable, debe revelar estructura de la BD
+    // No debe revelar estructura de la BD
     const responseText = JSON.stringify(response.body);
-    expect(responseText).toContain('information_schema');
-    expect(responseText).toContain('table_name');
-    expect(responseText).toContain('users');
+    expect(responseText).not.toContain('information_schema');
+    expect(responseText).not.toContain('table_name');
+    expect(responseText).not.toContain('users');
   });
 
   test('❌ DEBE FALLAR: Debe usar consultas parametrizadas', async () => {

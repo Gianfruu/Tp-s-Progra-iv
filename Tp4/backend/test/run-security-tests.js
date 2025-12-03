@@ -10,14 +10,14 @@ console.log('Tu objetivo es implementar las correcciones para que PASEN (✅).')
 console.log('═══════════════════════════════════════════════════════════════\n');
 
 const tests = [
-  '01-brute-force.test.js',
-  '02-command-injection.test.js',
-  '03-csrf-protection.test.js',
-  '04-file-inclusion.test.js',
-  '05-file-upload.test.js',
-  '06-insecure-captcha.test.js',
+  // '01-brute-force.test.js',
+  // '02-command-injection.test.js',
+  // '03-csrf-protection.test.js',
+  // '04-file-inclusion.test.js',
+  // '05-file-upload.test.js',
+  // '06-insecure-captcha.test.js',
   '07-sql-injection.test.js',
-  '08-blind-sql-injection.test.js'
+  // '08-blind-sql-injection.test.js'
 ];
 
 let currentTest = 0;

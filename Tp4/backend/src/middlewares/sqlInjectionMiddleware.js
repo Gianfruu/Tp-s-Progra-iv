@@ -31,21 +31,21 @@ const sqlInjectionMiddleware = (req, res, next) => {
     // Verificar en query
     for (const key in req.query) {
         if (detectarInjection(req.query[key])) {
-            return res.status(400).json({ message: 'Intento de inyección SQL detectado en el query.' });
+            return res.status(200).json([]);
         }
     }
 
     // Verificar en body
     for (const key in req.body) {
         if (detectarInjection(req.body[key])) {
-            return res.status(400).json({ message: 'Intento de inyección SQL detectado en el body.' });
+            return res.status(200).json([]);
         }
     }
 
     // Verificar en params
     for (const key in req.params) {
         if (detectarInjection(req.params[key])) {
-            return res.status(400).json({ message: 'Intento de inyección SQL detectado en los parámetros.' });
+            return res.status(200).json([]);
         }
     }
 
