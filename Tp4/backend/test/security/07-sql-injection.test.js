@@ -50,7 +50,7 @@ describe('Seguridad: SQL Injection', () => {
         category: "' UNION SELECT table_name, column_name, null, null, null FROM information_schema.columns --"
       });
 
-    // No debe revelar estructura de la BD
+    // Si la app es vulnerable, debe revelar estructura de la BD
     const responseText = JSON.stringify(response.body);
     expect(responseText).toContain('information_schema');
     expect(responseText).toContain('table_name');
