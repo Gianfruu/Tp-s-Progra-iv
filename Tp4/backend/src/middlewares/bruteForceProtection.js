@@ -2,9 +2,9 @@ const rateLimit = require('express-rate-limit');
 
 //Almacenamiento en memoria para intentos fallidos
 const failedAttempts = new Map();
-const MAX_ATTEMPTS_BEFORE_CAPTCHA = 3;
+const MAX_ATTEMPTS_BEFORE_CAPTCHA = 3; // Número de intentos fallidos antes de requerir CAPTCHA
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutos
-const RATE_LIMIT_MAX_REQUESTS = 5;
+const RATE_LIMIT_MAX_REQUESTS = 20; // Máximo 20 solicitudes por ventana
 
 //Limpiar intentos fallidos antiguos cada 30 minutos
 let cleanupInterval = setInterval(() => {
@@ -40,7 +40,7 @@ const loginLimiter = rateLimit({
     return false;
   },
   handler: (req, res) => {
-    res.status(429).json({ 
+    res.status(429).json({
       error: 'Demasiados intentos de login. Intenta más tarde.',
       retryAfter: req.rateLimit.resetTime
     });
@@ -52,9 +52,9 @@ const captchaCheckMiddleware = async (req, res, next) => {
   const ip = req.ip || req.connection.remoteAddress || 'unknown';
   const username = req.body.username || '';
   const key = `${ip}:${username}`;
-  
+
   let attempts = failedAttempts.get(key);
-  
+
   // Si no hay intentos previos, inicializar
   if (!attempts) {
     attempts = {
@@ -64,23 +64,25 @@ const captchaCheckMiddleware = async (req, res, next) => {
       lastAttempt: Date.now()
     };
   }
-  
 
-  const delayMs = Math.max(0, attempts.count * 1000);
-  
+
+  const exponent = Math.max(0, attempts.count - 1); // El primer intento no tiene demora
+  const baseMs = 300;  // 500 ms de base
+  const delayMs = Math.pow(2, exponent) * baseMs;  // Demora exponencial
+
   if (delayMs > 0) {
     //setTimeout para no bloquear el event loop
     await new Promise(resolve => setTimeout(resolve, delayMs));
   }
-  
+
 
   if (attempts.requiresCaptcha && !req.body.captchaToken) {
-    return res.status(400).json({ 
+    return res.status(400).json({
       error: 'Se requiere verificación de captcha después de varios intentos fallidos',
-      requiresCaptcha: true 
+      requiresCaptcha: true
     });
   }
-  
+
   req.attemptKey = key;
   req.attempts = attempts;
   next();
@@ -95,15 +97,15 @@ const recordFailedAttempt = (attemptKey) => {
     requiresCaptcha: false,
     lastAttempt: now
   };
-  
+
   attempts.count++;
   attempts.lastAttempt = now;
-  
+
   //CAPTCHA si supera el maximo de intentos permitidos
   if (attempts.count >= MAX_ATTEMPTS_BEFORE_CAPTCHA) {
     attempts.requiresCaptcha = true;
   }
-  
+
   failedAttempts.set(attemptKey, attempts);
 };
 
@@ -118,5 +120,6 @@ module.exports = {
   recordFailedAttempt,
   clearAttempts,
   failedAttempts,
+  cleanupInterval,
   MAX_ATTEMPTS_BEFORE_CAPTCHA
 };
